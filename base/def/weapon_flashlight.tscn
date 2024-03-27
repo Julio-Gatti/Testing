@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://dw2uton3abl1f"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_apx5l"]
+height = 0.3
+radius = 0.05
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3c0by"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.3
+
+[node name="WeaponFlashlight" type="RigidBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CylinderShape3D_apx5l")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+mesh = SubResource("CylinderMesh_3c0by")
+skeleton = NodePath("../..")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+shadow_enabled = true
