@@ -1,18 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://bm2sqrofhbxll"]
+[gd_scene load_steps=5 format=3 uid="uid://bm2sqrofhbxll"]
 
 [ext_resource type="PackedScene" uid="uid://bvja087at6l6e" path="res://base/def/player.tscn" id="2_1wi2x"]
+[ext_resource type="Material" uid="uid://ccjltchwo4nvc" path="res://base/materials/missing.tres" id="2_5dpn8"]
 [ext_resource type="PackedScene" uid="uid://dw2uton3abl1f" path="res://base/def/weapon_flashlight.tscn" id="3_toj68"]
+
+[sub_resource type="Environment" id="Environment_j7sub"]
 
 [node name="TestBox" type="Node3D"]
 
 [node name="Player" parent="." instance=ExtResource("2_1wi2x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.06222)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+material_override = ExtResource("2_5dpn8")
 use_collision = true
 size = Vector3(31, 1, 31)
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-
 [node name="WeaponFlashlight" parent="." instance=ExtResource("3_toj68")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -1, -5)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_j7sub")

@@ -1,18 +1,38 @@
-[gd_scene load_steps=3 format=3 uid="uid://bvja087at6l6e"]
+[gd_scene load_steps=7 format=3 uid="uid://bvja087at6l6e"]
 
 [ext_resource type="Script" path="res://base/script/Player.gd" id="1_a1bu6"]
+[ext_resource type="Script" path="res://base/script/Inventory.gd" id="2_burrd"]
+[ext_resource type="ArrayMesh" uid="uid://mys6fnjikc11" path="res://base/models/player/player.obj" id="3_4sowd"]
+[ext_resource type="Texture2D" uid="uid://bfasjy7hfuf3" path="res://base/models/player/player_0.png" id="4_ahase"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_mi1ru"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qn0b4"]
+specular_mode = 2
+albedo_texture = ExtResource("4_ahase")
+texture_filter = 2
+
 [node name="Player" type="CharacterBody3D"]
+floor_constant_speed = true
 script = ExtResource("1_a1bu6")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CylinderShape3D_mi1ru")
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="FPSCamera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+cull_mask = 1048573
 
-[node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
+[node name="RayCast3D" type="RayCast3D" parent="FPSCamera3D"]
 target_position = Vector3(0, 0, -2)
+
+[node name="Inventory" type="Node3D" parent="FPSCamera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.179184, -0.106497, -1)
+script = ExtResource("2_burrd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.785, 0)
+layers = 2
+mesh = ExtResource("3_4sowd")
+surface_material_override/0 = SubResource("StandardMaterial3D_qn0b4")

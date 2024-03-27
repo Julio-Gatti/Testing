@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://ccjltchwo4nvc"]
+
+[ext_resource type="Texture2D" uid="uid://4088itr8hb" path="res://base/textures/missing.png" id="1_a67xr"]
+
+[resource]
+specular_mode = 2
+albedo_texture = ExtResource("1_a67xr")
+uv1_triplanar = true
+texture_filter = 2
