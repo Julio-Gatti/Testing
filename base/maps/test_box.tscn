@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bm2sqrofhbxll"]
+
+[ext_resource type="Texture2D" uid="uid://4088itr8hb" path="res://base/textures/missing.png" id="1_0bf1m"]
+[ext_resource type="PackedScene" uid="uid://bvja087at6l6e" path="res://base/def/player.tscn" id="2_1wi2x"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3jmm5"]
+specular_mode = 2
+albedo_texture = ExtResource("1_0bf1m")
+texture_filter = 2
+
+[node name="TestBox" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("2_1wi2x")]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+material_override = SubResource("StandardMaterial3D_3jmm5")
+use_collision = true
+size = Vector3(9, 1, 9)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
