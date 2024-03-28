@@ -1,6 +1,6 @@
 # Essentially just something to hold in the view.
-class_name Weapon
-extends Node3D
+class_name Weapon3D
+extends Item3D
 
 # `Firearm` muzzleflash or `Flashlight` light source.
 @onready var light : SpotLight3D = $SpotLight3D
