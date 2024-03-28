@@ -1,12 +1,5 @@
-# Essentially just something to hold in the view.
-class_name Weapon
-extends Node3D
-
-# `Firearm` muzzleflash or `Flashlight` light source.
-@onready var light : SpotLight3D = $SpotLight3D
-
-# `Firearm` ammunition or `Flashlight` battery.
-@export var ammo : int
+class_name Firearm
+extends Weapon
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -17,12 +10,12 @@ func _process(delta):
 	pass
 
 # Primary fire. Called by the attacker upon primary attacking.
-# Could I fire your weapon? Maybe :)
 func fire(attacker):
-	# Undefined, I guess
-	pass
+	if ammo: # not 0
+		ammo--
+		hitscan()
 
 # Secondary fire. Called by the attacker upon secondary attacking.
 func fire2(attacker):
-	# Undefined, I guess
+	# I'll take a pass.
 	pass
