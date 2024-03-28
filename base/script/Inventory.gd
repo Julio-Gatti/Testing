@@ -1,3 +1,4 @@
+# The idea is that this is the "hand" of the player, in front of the camera.
 class_name Inventory
 extends Node3D
 
