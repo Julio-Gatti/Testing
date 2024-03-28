@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://bvja087at6l6e"]
 
 [ext_resource type="Script" path="res://base/script/Player.gd" id="1_a1bu6"]
-[ext_resource type="Script" path="res://base/script/Inventory.gd" id="2_burrd"]
+[ext_resource type="Script" path="res://base/script/Inventory3D.gd" id="2_burrd"]
 [ext_resource type="ArrayMesh" uid="uid://mys6fnjikc11" path="res://base/models/player/player.obj" id="3_4sowd"]
 [ext_resource type="Texture2D" uid="uid://bfasjy7hfuf3" path="res://base/models/player/player_0.png" id="4_ahase"]
 

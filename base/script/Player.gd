@@ -20,7 +20,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 # Either an array of nodes or just parent to an inventory node...
 var inventory : Inventory
-var weapon : Weapon
+var weapon : Weapon3D
 
 # Called upon being added to the `SceneTree`, so essentially upon spawning.
 func _enter_tree():
