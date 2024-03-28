@@ -13,7 +13,7 @@ func _ready():
 func _process(delta):
 	pass
 
-func add(item):
+func add(item : Item3D):
 	assert(item != null, "Shouldn't add nulls to the inventory.")
 
 	print(get_class(), '.add(', item, ')')

@@ -8,6 +8,14 @@ Godot project.
 
 [TrenchBroom Releases](https://github.com/TrenchBroom/TrenchBroom/releases)
 
+## Settings
+
+`editors/3d/freelook/freelook_navigation_scheme` Partially Axis-Locked
+
+## Visual Studio Code
+
+[geequlim.godot-tools](https://marketplace.visualstudio.com/items?itemName=geequlim.godot-tools)
+
 ## TODO
 
 Extendable in-game Quake/UNIX style console with commands like `map`, cvars, etc.

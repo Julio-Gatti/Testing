@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://bvja087at6l6e"]
 
-[ext_resource type="Script" path="res://base/script/Player.gd" id="1_a1bu6"]
+[ext_resource type="Script" path="res://base/script/player.gd" id="1_a1bu6"]
 [ext_resource type="Script" path="res://base/script/Inventory3D.gd" id="2_burrd"]
 [ext_resource type="ArrayMesh" uid="uid://mys6fnjikc11" path="res://base/models/player/player.obj" id="3_4sowd"]
 [ext_resource type="Texture2D" uid="uid://bfasjy7hfuf3" path="res://base/models/player/player_0.png" id="4_ahase"]
@@ -36,3 +36,6 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.7
 layers = 2
 mesh = ExtResource("3_4sowd")
 surface_material_override/0 = SubResource("StandardMaterial3D_qn0b4")
+
+[node name="Voice" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.54518, 0)

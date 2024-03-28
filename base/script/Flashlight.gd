@@ -1,5 +1,5 @@
 class_name Flashlight
-extends Weapon
+extends Weapon3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

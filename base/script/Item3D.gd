@@ -18,3 +18,8 @@ func fire(attacker):
 func fire2(attacker):
 	# Undefined, I guess
 	pass
+
+func interact(user):
+	# TODO this sucks.
+	if (user.has_method('add')):
+		user.add(self)

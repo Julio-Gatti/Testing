@@ -1,5 +1,5 @@
 class_name Firearm
-extends Weapon
+extends Weapon3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -9,10 +9,13 @@ func _ready():
 func _process(delta):
 	pass
 
+func hitscan():
+	pass
+
 # Primary fire. Called by the attacker upon primary attacking.
 func fire(attacker):
 	if ammo: # not 0
-		ammo--
+		ammo -= 1
 		hitscan()
 
 # Secondary fire. Called by the attacker upon secondary attacking.
