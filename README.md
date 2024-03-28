@@ -4,6 +4,8 @@ Godot project.
 
 ## Usage
 
+[Godot 4.2.1 (stable)](https://godotengine.org/download/archive/4.2.1-stable/)
+
 [TrenchBroom Releases](https://github.com/TrenchBroom/TrenchBroom/releases)
 
 ## TODO
