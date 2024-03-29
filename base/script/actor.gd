@@ -69,7 +69,8 @@ func gib():
 
 func pain(amount : float, flags : int):
 	# I don't care about health going below zero, it's a feature for gibbing.
-	health -= amount
+	# GDScript doesn't support C style cast :(
+	health -= int(amount)
 	if health < 0:
 		# Should get the appropriate death sound for damage type
 		if flags & DMG_DROWN:
