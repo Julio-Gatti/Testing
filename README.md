@@ -16,6 +16,25 @@ Godot project.
 
 [geequlim.godot-tools](https://marketplace.visualstudio.com/items?itemName=geequlim.godot-tools)
 
+## Files
+
+Filenames should generally be in `snake_case` [ASCII `0-127`](https://www.ascii-code.com/).
+
+Any whitespace like spaces or tabs should not be used.
+
+Nonstandard characters like `'ä'` should not be used.
+
+Why: Filenames are case-insensitive only on Windows, and having spaces causes extra hassle for commands.
+
+## Code
+
+Use:
+- `PascalCase`
+- `snake_case`
+- `SCREAMING_SNAKE_CASE`
+
+Note: `camelCase` should not be used.
+
 ## TODO
 
 Extendable in-game Quake/UNIX style console with commands like `map`, cvars, etc.
