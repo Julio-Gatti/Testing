@@ -113,6 +113,15 @@ var wishdir : Vector3
 ## Air acceleration.
 @export() var air_acceleration : float = 1
 
+## Bob amplitude.
+@export var cl_bob : float = 0.02
+## Bob frequency.
+@export var cl_bobcycle : float = 0.6
+@export var cl_bobup : float = 0.5
+
+## Strafe tilt.
+@export() var cl_rollangle : float = 2
+
 func is_input_enabled() -> bool:
 	return Input.mouse_mode == Input.MOUSE_MODE_CAPTURED
 
