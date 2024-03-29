@@ -2,14 +2,16 @@
 class_name Player3D
 extends Actor3D
 
-@onready var camera : Camera3D = $FPSCamera3D
-@onready var ray : RayCast3D = $FPSCamera3D/RayCast3D
+@onready var camera : Camera3D = $FPSCamera
+@onready var ray : RayCast3D = $FPSCamera/RayCast3D
+@onready var chase_camera: Camera3D = $FPSCamera/SpringArm3D/ChaseCamera
 
-# Quake mouse pitch coefficient.
+@export_group('Mouse')
+## Quake mouse pitch coefficient.
 @export var m_pitch : float = 0.022
-# Quake mouse yaw coefficient.
+## Quake mouse yaw coefficient.
 @export var m_yaw : float = 0.022
-# Quake mouse sensitivity.
+## Quake mouse sensitivity.
 @export var sensitivity : float = 4.0
 
 # Either an array of nodes or just parent to an inventory node...
@@ -21,9 +23,16 @@ func _enter_tree():
 	print(get_class(), '._enter_tree')
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
-func _process(_delta):
+## Quake keyboard yaw speed.
+@export var cl_yawspeed : float = 140
+## Quake keyboard pitch speed.
+@export var cl_pitchspeed : float = 140
+
+func _process(delta):
 	# TODO Quake "think"
-	pass
+	# keyboard look
+	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		rotate_y(-Input.get_axis('left', 'right') * cl_yawspeed * delta)
 
 # Quake +attack
 func attack():
@@ -55,9 +64,20 @@ func toggleconsole():
 func exit(exit_code: int = 0):
 	get_tree().quit(exit_code)
 
+func toggle_camera():
+	if camera.current:
+		camera.current = false
+		chase_camera.current = true
+	else:
+		camera.current = true
+		chase_camera.current = false
+
 # Quake client input
 # https://github.com/id-Software/Quake-III-Arena/blob/master/code/client/cl_input.c
 func _input(event):
+	if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
+		return
+
 	# Handle mlook
 	# TODO keyboard look
 	if event is InputEventMouseMotion:
@@ -73,8 +93,10 @@ func _input(event):
 			use()
 		if event.is_action_pressed('toggleconsole'):
 			toggleconsole()
-		if event.is_action_pressed('ui_cancel'): # escape
-			exit()
+		if event.is_action_pressed('noclip'):
+			noclip()
+		if event.is_action_pressed('camera'):
+			toggle_camera()
 
 # Add stuff to inventory
 func add(item : Item3D):
@@ -82,17 +104,28 @@ func add(item : Item3D):
 
 # Quake wishdir
 var wishdir : Vector3
+
+@export_group('Movement')
 ## Ground acceleration.
 @export var acceleration : float = 32
 ## Ground deceleration.
 @export var deceleration : float = 8
+## Air acceleration.
+@export() var air_acceleration : float = 1
+
+func is_input_enabled() -> bool:
+	return Input.mouse_mode == Input.MOUSE_MODE_CAPTURED
 
 func _physics_process(delta):
-	# No super yet!
+	# No super yet as it moves the body!
 	
 	# Get the input direction and handle the movement/deceleration.
-	# TODO acceletation
-	var input_dir = Input.get_vector("moveleft", "moveright", "forward", "back")
+	var input_dir : Vector2
+	if is_input_enabled():
+		input_dir = Input.get_vector("moveleft", "moveright", "forward", "back")
+	else:
+		input_dir = Vector2.ZERO
+
 	wishdir = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if wishdir: # length > 0
 		# wants to accelerate
@@ -101,8 +134,8 @@ func _physics_process(delta):
 			velocity.x = lerp(velocity.x, wishdir.x * speed, acceleration * delta)
 			velocity.z = lerp(velocity.z, wishdir.z * speed, acceleration * delta)
 		else:
-			# TODO still allow smaller changes to velocity
-			pass
+			velocity.x = lerp(velocity.x, wishdir.x * speed, air_acceleration * delta)
+			velocity.z = lerp(velocity.z, wishdir.z * speed, air_acceleration * delta)
 	else:
 		# wants to decelerate
 		# but are we in the air?
@@ -112,9 +145,10 @@ func _physics_process(delta):
 			# it doesn't move us.
 			velocity.x = lerp(velocity.x, move_toward(velocity.x, 0, speed), deceleration * delta)
 			velocity.z = lerp(velocity.z, move_toward(velocity.z, 0, speed), deceleration * delta)
-	
-	# Handle jump.
-	if Input.is_action_just_pressed("jump"):
-		jump()
+
+	if is_input_enabled():
+		# Handle jump.
+		if Input.is_action_just_pressed("jump"):
+			jump()
 	
 	super._physics_process(delta)

@@ -52,6 +52,18 @@ class Damage:
 # Get the gravity from the project settings to be synced with `RigidBody` nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+# This syntax for returning something sucks, lol
+func is_noclip() -> bool:
+	return motion_mode == CharacterBody3D.MOTION_MODE_FLOATING
+
+func noclip():
+	if is_noclip():
+		print(name, ': noclip off')
+		motion_mode = CharacterBody3D.MOTION_MODE_GROUNDED
+	else:
+		print(name, ': noclip on')
+		motion_mode = CharacterBody3D.MOTION_MODE_FLOATING
+
 # Audio source to not be able to "speak" sounds overlapping.
 @onready var voice : AudioStreamPlayer3D = $Voice
 
@@ -72,7 +84,12 @@ var last_velocity : Vector3
 @export var h20death_sound : AudioStream = preload('res://base/sound/ranger/h2odeath.wav')
 @export var gib_sound : AudioStream = preload('res://base/sound/ranger/gib.wav')
 
+func _init():
+	floor_constant_speed = true
+
 func _ready():
+	assert(floor_constant_speed, 'Should be set')
+
 	if !voice:
 		# TODO warning?
 		printerr(name, ' has no voice, creating it, sound will come from feet')

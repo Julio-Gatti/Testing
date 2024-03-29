@@ -20,21 +20,21 @@ script = ExtResource("1_a1bu6")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CylinderShape3D_mi1ru")
 
-[node name="FPSCamera3D" type="Camera3D" parent="."]
+[node name="FPSCamera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 cull_mask = 1048573
 
-[node name="RayCast3D" type="RayCast3D" parent="FPSCamera3D"]
+[node name="RayCast3D" type="RayCast3D" parent="FPSCamera"]
 target_position = Vector3(0, 0, -2)
 
-[node name="Inventory" type="Node3D" parent="FPSCamera3D"]
+[node name="Inventory" type="Node3D" parent="FPSCamera"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.179184, -0.106497, -1)
 script = ExtResource("2_burrd")
 
-[node name="SpringArm3D" type="SpringArm3D" parent="FPSCamera3D"]
+[node name="SpringArm3D" type="SpringArm3D" parent="FPSCamera"]
 spring_length = 3.68
 
-[node name="ChaseCamera3D" type="Camera3D" parent="FPSCamera3D/SpringArm3D"]
+[node name="ChaseCamera" type="Camera3D" parent="FPSCamera/SpringArm3D"]
 current = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
