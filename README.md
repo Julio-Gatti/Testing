@@ -22,3 +22,7 @@ Extendable in-game Quake/UNIX style console with commands like `map`, cvars, etc
 (C++ for proper integration?)
 
 [`gfx/env`](https://modwiki.dhewm3.org/Cube_maps)
+
+## Misc
+
+https://titlecaseconverter.com/

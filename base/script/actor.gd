@@ -1,8 +1,28 @@
 class_name Actor3D
 extends CharacterBody3D
 
-# Horrible unnamed enum like in C? YES!
-# https://github.com/ValveSoftware/halflife/blob/c7240b965743a53a29491dd49320c88eecf6257b/ricochet/cl_dll/eventscripts.h#L25
+# Spawnflags
+# Horrible unnamed and unscoped enum like in C? YES!
+# https://github.com/id-Software/Quake-2/blob/master/game/g_local.h#L48
+enum {
+	SPAWNFLAG_NOT_EASY			= 1 << 0,	# 1: Doesn't spawn on easy
+	SPAWNFLAG_NOT_MEDIUM		= 1 << 1,	# 2: Doesn't spawn on medium
+	SPAWNFLAG_NOT_HARD			= 1 << 2,	# 4: Doesn't spawn on hard
+	SPAWNFLAG_NOT_DEATHMATCH	= 1 << 3,	# 8: Doesn't spawn in deathmatch
+	SPAWNFLAG_NOT_COOP			= 1 << 4,	# 16: Doesn't spawn in coop
+}
+
+# Halleluja.
+# https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_exports.html#exporting-bit-flags
+@export_flags(
+	"Not on Easy:1",
+	"Not on Medium:2",
+	"Not on Hard:4",
+	"Not in Deathmatch:8",
+	"Not in Coop:16") var spawnflags : int = 0
+
+# Damage type flags
+# https://github.com/ValveSoftware/halflife/blob/master/ricochet/cl_dll/eventscripts.h#L25
 enum {
 	DMG_GENERIC		= 0,
 	DMG_CRUSH		= 1 << 0,
@@ -25,7 +45,7 @@ class Damage:
 	var causer : Node3D
 	var instigator : Node3D
 
-# Maximum movement speed.
+## Maximum movement speed.
 @export var speed = 5.0
 @export var jump_velocity = 4.5
 
@@ -35,23 +55,29 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 # Audio source to not be able to "speak" sounds overlapping.
 @onready var voice : AudioStreamPlayer3D = $Voice
 
-@export var health : int = 100
-@export var dead : bool = false
+@export_range(1, 65535) var health : int = 100
+var dead : bool = false
 
 # kinda sucks
 var was_in_air : bool
 # might be in Godot already somewhere
 var last_velocity : Vector3
 
-## How much this guy takes the fall damagellsssssttt `m/s * this`
+## How much this guy takes the fall damagellsssssttt `* m/s`
 @export var falling_damage_multiplier : float = 1.5
 
-# 5m?
 @export var jump_sound : AudioStream = preload('res://base/sound/ranger/jmp.wav')
 @export var pain_sound : AudioStream = preload('res://base/sound/ranger/pain.tres')
 @export var death_sound : AudioStream = preload('res://base/sound/ranger/death1.wav')
 @export var h20death_sound : AudioStream = preload('res://base/sound/ranger/h2odeath.wav')
 @export var gib_sound : AudioStream = preload('res://base/sound/ranger/gib.wav')
+
+func _ready():
+	if !voice:
+		# TODO warning?
+		printerr(name, ' has no voice, creating it, sound will come from feet')
+		voice = AudioStreamPlayer3D.new()
+		add_child(voice)
 
 # Quake +jump
 func jump():

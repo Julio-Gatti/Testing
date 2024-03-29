@@ -3,6 +3,7 @@ class_name AI3D
 extends Actor3D
 
 var next_idle : float
+## Barking.
 @export var idle_sound : AudioStream = preload('res://base/sound/zombie/idle.tres')
 
 # Called when the node enters the scene tree for the first time.

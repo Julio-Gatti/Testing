@@ -14,7 +14,7 @@ func hitscan():
 
 # Primary fire. Called by the attacker upon primary attacking.
 func fire(attacker):
-	if ammo: # not 0
+	if ammo: # != 0
 		ammo -= 1
 		hitscan()
 
