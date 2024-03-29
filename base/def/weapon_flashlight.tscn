@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dw2uton3abl1f"]
+[gd_scene load_steps=4 format=3 uid="uid://dw2uton3abl1f"]
+
+[ext_resource type="Script" path="res://base/script/flashlight.gd" id="1_hkocx"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_apx5l"]
 height = 0.3
@@ -10,6 +12,7 @@ bottom_radius = 0.05
 height = 0.3
 
 [node name="WeaponFlashlight" type="RigidBody3D"]
+script = ExtResource("1_hkocx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
