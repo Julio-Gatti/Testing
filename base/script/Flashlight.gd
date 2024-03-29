@@ -1,3 +1,4 @@
+# Weapon
 class_name Flashlight
 extends Weapon3D
 

@@ -1,3 +1,4 @@
+# Weapon
 class_name Firearm
 extends Weapon3D
 
