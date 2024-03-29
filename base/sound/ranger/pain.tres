@@ -1,0 +1,23 @@
+[gd_resource type="AudioStreamRandomizer" load_steps=7 format=3 uid="uid://xou3tbyv5mlc"]
+
+[ext_resource type="AudioStream" uid="uid://d8yc0vtygyub" path="res://base/sound/ranger/pain1.wav" id="1_8savg"]
+[ext_resource type="AudioStream" uid="uid://4soh6yroq8rm" path="res://base/sound/ranger/pain2.wav" id="2_2lbfy"]
+[ext_resource type="AudioStream" uid="uid://cbu1n7w1nw7km" path="res://base/sound/ranger/pain3.wav" id="3_umtjs"]
+[ext_resource type="AudioStream" uid="uid://bdosf0bgo2gcf" path="res://base/sound/ranger/pain4.wav" id="4_76tut"]
+[ext_resource type="AudioStream" uid="uid://bsclc2q1yio33" path="res://base/sound/ranger/pain5.wav" id="5_m75k2"]
+[ext_resource type="AudioStream" uid="uid://cltd2u6hc3lv7" path="res://base/sound/ranger/pain6.wav" id="6_xlhgp"]
+
+[resource]
+streams_count = 6
+stream_0/stream = ExtResource("1_8savg")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("2_2lbfy")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("3_umtjs")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("4_76tut")
+stream_3/weight = 1.0
+stream_4/stream = ExtResource("5_m75k2")
+stream_4/weight = 1.0
+stream_5/stream = ExtResource("6_xlhgp")
+stream_5/weight = 1.0

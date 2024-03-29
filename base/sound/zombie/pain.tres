@@ -1,0 +1,11 @@
+[gd_resource type="AudioStreamRandomizer" load_steps=3 format=3 uid="uid://dxoal40bf505p"]
+
+[ext_resource type="AudioStream" uid="uid://ciwhkn53p3vha" path="res://base/sound/zombie/pain.wav" id="1_lblgg"]
+[ext_resource type="AudioStream" uid="uid://clt2su5j5ofhx" path="res://base/sound/zombie/pain1.wav" id="2_gb5au"]
+
+[resource]
+streams_count = 2
+stream_0/stream = ExtResource("1_lblgg")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("2_gb5au")
+stream_1/weight = 1.0

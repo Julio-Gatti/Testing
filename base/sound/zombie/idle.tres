@@ -1,0 +1,11 @@
+[gd_resource type="AudioStreamRandomizer" load_steps=3 format=3 uid="uid://bho5lds0r0iaf"]
+
+[ext_resource type="AudioStream" uid="uid://66eh7lmn1646" path="res://base/sound/zombie/idle.wav" id="1_of8lh"]
+[ext_resource type="AudioStream" uid="uid://5yl1ktd0krq1" path="res://base/sound/zombie/idle1.wav" id="2_0xluh"]
+
+[resource]
+streams_count = 2
+stream_0/stream = ExtResource("1_of8lh")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("2_0xluh")
+stream_1/weight = 1.0

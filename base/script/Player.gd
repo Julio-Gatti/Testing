@@ -68,3 +68,26 @@ func _input(event):
 # Add stuff to inventory
 func add(item : Item3D):
 	inventory.add(item)
+
+func _physics_process(delta):
+	# No super yet!
+	
+	# Get the input direction and handle the movement/deceleration.
+	# TODO acceletation
+	var input_dir = Input.get_vector("moveleft", "moveright", "forward", "back")
+	var wishdir = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	if wishdir:
+		velocity.x = wishdir.x * speed
+		velocity.z = wishdir.z * speed
+	else:
+		# move_toward is just a math interpolation function,
+		# here it "moves" our velocity towards our speed,
+		# it doesn't move us.
+		velocity.x = move_toward(velocity.x, 0, speed)
+		velocity.z = move_toward(velocity.z, 0, speed)
+	
+	# Handle jump.
+	if Input.is_action_just_pressed("jump"):
+		jump()
+	
+	super._physics_process(delta)

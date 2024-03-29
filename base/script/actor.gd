@@ -43,10 +43,12 @@ var was_in_air : bool
 # might be in Godot already somewhere
 var last_velocity : Vector3
 
-const FALLING_DAMAGE_MULTIPLIER : float = 0.1
+## How much this guy takes the fall damagellsssssttt `m/s * this`
+@export var falling_damage_multiplier : float = 1.5
 
+# 5m?
 @export var jump_sound : AudioStream = preload('res://base/sound/ranger/jmp.wav')
-@export var pain_sound : AudioStream = preload('res://base/sound/ranger/pain1.wav')
+@export var pain_sound : AudioStream = preload('res://base/sound/ranger/pain.tres')
 @export var death_sound : AudioStream = preload('res://base/sound/ranger/death1.wav')
 @export var h20death_sound : AudioStream = preload('res://base/sound/ranger/h2odeath.wav')
 @export var gib_sound : AudioStream = preload('res://base/sound/ranger/gib.wav')
@@ -65,12 +67,12 @@ func gib():
 	voice.stream = gib_sound
 	voice.play()
 
-func pain(damage):
+func pain(amount : float, flags : int):
 	# I don't care about health going below zero, it's a feature for gibbing.
-	health -= damage.amount
+	health -= amount
 	if health < 0:
 		# Should get the appropriate death sound for damage type
-		if damage.flags & DMG_DROWN:
+		if flags & DMG_DROWN:
 			voice.stream = h20death_sound
 		else:
 			voice.stream = death_sound
@@ -79,19 +81,28 @@ func pain(damage):
 		voice.stream = pain_sound
 		voice.play()
 
+## m/s
+@export var falling_damage_velocity_threshold : float = 9.9
+
 func landed():
 	# Current UP velocity is 0 already, so use last velocity
 	print('landed velocity: ', last_velocity)
 	was_in_air = false
+
 	# Falling damage
-	var damage : Damage
-	damage.amount = abs(last_velocity.y) * FALLING_DAMAGE_MULTIPLIER
-	damage.flags = DMG_FALL
-	# Causer is worldspawn in Quake/Source, soooo... root node? :D
-	damage.causer = get_tree().current_scene
-	# Should be the one who knocked you off a ledge
-	damage.instigator = null
-	pain(damage)
+	# Treshold
+	# abs if head hit ceiling? xd
+	if abs(last_velocity.y) > falling_damage_velocity_threshold:
+		# var damage : Damage
+		# What the fuck? Does this not work like C? :D
+		#damage.amount = abs(last_velocity.y) * falling_damage_multiplier
+		#damage.flags = DMG_FALL
+		# Causer is worldspawn in Quake/Source, soooo... root node? :D
+		#damage.causer = get_tree().current_scene
+		# Should be the one who knocked you off a ledge
+		#damage.instigator = null
+		var damage_amount = abs(last_velocity.y) * falling_damage_multiplier
+		pain(damage_amount, DMG_FALL)
 
 # I presume this is called every time the physics world gets simulated,
 # which is independent of our visual framerate.
@@ -104,24 +115,6 @@ func _physics_process(delta):
 		velocity.y -= gravity * delta
 	elif was_in_air:
 		landed()
-
-	# Handle jump.
-	if Input.is_action_just_pressed("jump"):
-		jump()
-
-	# Get the input direction and handle the movement/deceleration.
-	# TODO acceletation
-	var input_dir = Input.get_vector("moveleft", "moveright", "forward", "back")
-	var wishdir = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	if wishdir:
-		velocity.x = wishdir.x * speed
-		velocity.z = wishdir.z * speed
-	else:
-		# move_toward is just a math interpolation function,
-		# here it "moves" our velocity towards our speed,
-		# it doesn't move us.
-		velocity.x = move_toward(velocity.x, 0, speed)
-		velocity.z = move_toward(velocity.z, 0, speed)
 
 	last_velocity = velocity
 
