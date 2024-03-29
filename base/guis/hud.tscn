@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://cwjrflasgepf0"]
 
-[ext_resource type="Script" path="res://base/guis/health_bar.gd" id="1_e5lnt"]
+[ext_resource type="Script" path="res://base/guis/health_label.gd" id="1_e5lnt"]
 [ext_resource type="LabelSettings" uid="uid://vm7cp4l6fmqt" path="res://base/guis/label_settings.tres" id="1_hggpe"]
-[ext_resource type="Script" path="res://base/guis/velocity.gd" id="2_gqfae"]
+[ext_resource type="Script" path="res://base/guis/velocity_label.gd" id="2_gqfae"]
 
 [node name="Hud" type="Control"]
 layout_mode = 3

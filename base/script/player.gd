@@ -49,6 +49,12 @@ func use():
 		# Isn't a '' string precisely a non escaped string, or is that just a JavaScript thing?
 		print('use: no interactable')
 
+func toggleconsole():
+	print('toggleconsole')
+
+func exit(exit_code: int = 0):
+	get_tree().quit(exit_code)
+
 # Quake client input
 # https://github.com/id-Software/Quake-III-Arena/blob/master/code/client/cl_input.c
 func _input(event):
@@ -65,10 +71,21 @@ func _input(event):
 			attack2()
 		if event.is_action_pressed('use'):
 			use()
+		if event.is_action_pressed('toggleconsole'):
+			toggleconsole()
+		if event.is_action_pressed('ui_cancel'): # escape
+			exit()
 
 # Add stuff to inventory
 func add(item : Item3D):
 	inventory.add(item)
+
+# Quake wishdir
+var wishdir : Vector3
+## Ground acceleration.
+@export var acceleration : float = 32
+## Ground deceleration.
+@export var deceleration : float = 8
 
 func _physics_process(delta):
 	# No super yet!
@@ -76,16 +93,25 @@ func _physics_process(delta):
 	# Get the input direction and handle the movement/deceleration.
 	# TODO acceletation
 	var input_dir = Input.get_vector("moveleft", "moveright", "forward", "back")
-	var wishdir = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	if wishdir:
-		velocity.x = wishdir.x * speed
-		velocity.z = wishdir.z * speed
+	wishdir = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	if wishdir: # length > 0
+		# wants to accelerate
+		# but are we in the air?
+		if is_on_floor():
+			velocity.x = lerp(velocity.x, wishdir.x * speed, acceleration * delta)
+			velocity.z = lerp(velocity.z, wishdir.z * speed, acceleration * delta)
+		else:
+			# TODO still allow smaller changes to velocity
+			pass
 	else:
-		# move_toward is just a math interpolation function,
-		# here it "moves" our velocity towards our speed,
-		# it doesn't move us.
-		velocity.x = move_toward(velocity.x, 0, speed)
-		velocity.z = move_toward(velocity.z, 0, speed)
+		# wants to decelerate
+		# but are we in the air?
+		if is_on_floor():
+			# move_toward is just a math interpolation function,
+			# here it "moves" our velocity towards our speed,
+			# it doesn't move us.
+			velocity.x = lerp(velocity.x, move_toward(velocity.x, 0, speed), deceleration * delta)
+			velocity.z = lerp(velocity.z, move_toward(velocity.z, 0, speed), deceleration * delta)
 	
 	# Handle jump.
 	if Input.is_action_just_pressed("jump"):

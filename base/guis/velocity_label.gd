@@ -10,5 +10,7 @@ func _ready():
 	assert(player, "No player in scene?")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	text = "velocity: %s" % player.velocity
+func _process(_delta):
+	# https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_format_string.html#multiple-placeholders
+	const format : String = "wishdir: %s\nvelocity: %s"
+	text = format % [player.wishdir, player.velocity]
