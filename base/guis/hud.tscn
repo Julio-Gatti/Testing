@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cwjrflasgepf0"]
+[gd_scene load_steps=9 format=3 uid="uid://cwjrflasgepf0"]
 
 [ext_resource type="Script" path="res://base/guis/hud.gd" id="1_1vkfm"]
 [ext_resource type="Script" path="res://base/guis/health_label.gd" id="1_e5lnt"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://base/script/console.gd" id="4_0w6jr"]
 [ext_resource type="Script" path="res://base/guis/console_input.gd" id="6_i5sg8"]
 [ext_resource type="Script" path="res://base/guis/console_ouput.gd" id="7_b6ser"]
+[ext_resource type="Script" path="res://base/guis/framerate_label.gd" id="8_tysey"]
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -132,6 +133,12 @@ layout_mode = 0
 offset_right = 425.0
 offset_bottom = 120.0
 script = ExtResource("7_b6ser")
+
+[node name="FramerateLabel" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("8_tysey")
 
 [connection signal="text_submitted" from="Console/ConsoleInput" to="Console" method="_on_console_input_text_submitted"]
 [connection signal="text_submitted" from="Console/ConsoleInput" to="Console/ConsoleInput" method="_on_text_submitted"]
