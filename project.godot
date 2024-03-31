@@ -12,8 +12,11 @@ config_version=5
 
 config/name="Testing"
 config/description="Godot project."
+config/version="0.1"
 run/main_scene="res://base/maps/test_box.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
+run/max_fps=300
+boot_splash/use_filter=false
 config/icon="res://icon.svg"
 
 [display]
