@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://cwjrflasgepf0"]
+[gd_scene load_steps=10 format=3 uid="uid://cwjrflasgepf0"]
 
 [ext_resource type="Script" path="res://base/guis/hud.gd" id="1_1vkfm"]
 [ext_resource type="Script" path="res://base/guis/health_label.gd" id="1_e5lnt"]
 [ext_resource type="LabelSettings" uid="uid://vm7cp4l6fmqt" path="res://base/guis/label_settings.tres" id="1_hggpe"]
 [ext_resource type="Script" path="res://base/guis/velocity_label.gd" id="2_gqfae"]
 [ext_resource type="Script" path="res://base/script/console.gd" id="4_0w6jr"]
+[ext_resource type="PackedScene" uid="uid://cy57smgop60b1" path="res://base/guis/options_menu.tscn" id="5_2isbq"]
 [ext_resource type="Script" path="res://base/guis/console_input.gd" id="6_i5sg8"]
 [ext_resource type="Script" path="res://base/guis/console_ouput.gd" id="7_b6ser"]
 [ext_resource type="Script" path="res://base/guis/framerate_label.gd" id="8_tysey"]
@@ -46,72 +47,8 @@ text = "velocity: 130101331"
 label_settings = ExtResource("1_hggpe")
 script = ExtResource("2_gqfae")
 
-[node name="Menu" type="Control" parent="."]
+[node name="OptionsMenu" parent="." instance=ExtResource("5_2isbq")]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Label" type="Label" parent="Menu"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -88.0
-offset_top = -100.0
-offset_right = 88.0
-offset_bottom = -77.0
-grow_horizontal = 2
-text = "graphic dsign is pasion"
-
-[node name="Options" type="Button" parent="Menu"]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-text = "Options"
-
-[node name="BoxContainer" type="VBoxContainer" parent="Menu"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -340.0
-offset_top = -260.0
-offset_right = 300.0
-offset_bottom = 220.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Volume" type="HSlider" parent="Menu/BoxContainer"]
-layout_mode = 2
-max_value = 1.0
-step = 0.01
-value = 0.26
-
-[node name="Label" type="Label" parent="Menu/BoxContainer/Volume"]
-layout_mode = 0
-offset_right = 59.0
-offset_bottom = 23.0
-text = "Volume"
-
-[node name="HSlider" type="HSlider" parent="Menu/BoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Menu/BoxContainer/HSlider"]
-layout_mode = 0
-offset_right = 80.0
-offset_bottom = 23.0
-text = "Sensitivity"
 
 [node name="Console" type="Control" parent="."]
 anchors_preset = 0
