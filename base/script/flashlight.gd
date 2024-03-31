@@ -1,5 +1,5 @@
-# Weapon
-class_name Flashlight
+# 'Flashlight' hides a global script class?
+class_name JFlashlight
 extends Weapon3D
 
 # Called when the node enters the scene tree for the first time.
