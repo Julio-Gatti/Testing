@@ -7,10 +7,11 @@ var player : Player3D
 func _ready():
 	player = get_tree().current_scene.find_child("Player")
 	# This sucks anyway. Someday good.
-	assert(player, "No player in scene?")
+	# assert(player, "No player in scene?")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	# https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_format_string.html#multiple-placeholders
-	const format : String = "wishdir: %s\nvelocity: %s"
-	text = format % [player.wishdir, player.velocity]
+	if player:
+		# https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_format_string.html#multiple-placeholders
+		const format : String = "wishdir: %s\nvelocity: %s"
+		text = format % [player.wishdir, player.velocity]

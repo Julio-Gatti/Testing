@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cwjrflasgepf0"]
+[gd_scene load_steps=11 format=3 uid="uid://cwjrflasgepf0"]
 
 [ext_resource type="Script" path="res://base/guis/hud.gd" id="1_1vkfm"]
 [ext_resource type="Script" path="res://base/guis/health_label.gd" id="1_e5lnt"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://base/guis/console_input.gd" id="6_i5sg8"]
 [ext_resource type="Script" path="res://base/guis/console_ouput.gd" id="7_b6ser"]
 [ext_resource type="Script" path="res://base/guis/framerate_label.gd" id="8_tysey"]
+[ext_resource type="PackedScene" uid="uid://bpeh0xiwlhunv" path="res://base/guis/crosshair.tscn" id="10_y4tfr"]
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -58,24 +59,35 @@ script = ExtResource("4_0w6jr")
 
 [node name="ConsoleInput" type="LineEdit" parent="Console"]
 layout_mode = 0
-offset_left = 14.0
-offset_top = 140.0
-offset_right = 1064.0
-offset_bottom = 181.0
+offset_top = 128.0
+offset_right = 1280.0
+offset_bottom = 160.0
 placeholder_text = "args"
 script = ExtResource("6_i5sg8")
 
 [node name="ConsoleOutput" type="TextEdit" parent="Console"]
 layout_mode = 0
 offset_right = 425.0
-offset_bottom = 120.0
+offset_bottom = 128.0
 script = ExtResource("7_b6ser")
 
 [node name="FramerateLabel" type="Label" parent="."]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 49.0
+offset_top = 192.0
+offset_right = 89.0
+offset_bottom = 215.0
 script = ExtResource("8_tysey")
+
+[node name="Crosshair" parent="." instance=ExtResource("10_y4tfr")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 0.0
+offset_bottom = 0.0
 
 [connection signal="text_submitted" from="Console/ConsoleInput" to="Console" method="_on_console_input_text_submitted"]
 [connection signal="text_submitted" from="Console/ConsoleInput" to="Console/ConsoleInput" method="_on_text_submitted"]

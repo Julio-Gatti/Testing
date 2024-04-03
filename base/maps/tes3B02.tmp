@@ -1,14 +1,17 @@
 [gd_scene load_steps=7 format=3 uid="uid://bm2sqrofhbxll"]
 
+[ext_resource type="PackedScene" uid="uid://bvja087at6l6e" path="res://base/def/player.tscn" id="2_1wi2x"]
 [ext_resource type="Material" uid="uid://ccjltchwo4nvc" path="res://base/materials/missing.tres" id="2_5dpn8"]
 [ext_resource type="PackedScene" uid="uid://dw2uton3abl1f" path="res://base/def/weapon_flashlight.tscn" id="3_toj68"]
 [ext_resource type="PackedScene" uid="uid://cwjrflasgepf0" path="res://base/guis/hud.tscn" id="4_t2r5p"]
 [ext_resource type="PackedScene" uid="uid://scsjt60wo8yq" path="res://base/def/monster_zombie.tscn" id="5_65sod"]
-[ext_resource type="PackedScene" uid="uid://c0jys0pbmxnpv" path="res://base/def/info_player_start.tscn" id="5_ud4jq"]
 
 [sub_resource type="Environment" id="Environment_j7sub"]
 
 [node name="TestBox" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("2_1wi2x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.06222)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
@@ -47,6 +50,3 @@ transform = Transform3D(0.866025, 0.353553, -0.353553, 0, 0.707107, 0.707107, 0.
 
 [node name="MonsterZombie" parent="." instance=ExtResource("5_65sod")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -1, -27)
-
-[node name="info_player_start" parent="." instance=ExtResource("5_ud4jq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)

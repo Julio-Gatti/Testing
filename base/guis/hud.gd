@@ -2,7 +2,7 @@ class_name HUD
 extends Control
 
 @onready var options_menu : Control = $OptionsMenu
-@onready var console : Console = $Console
+@onready var console : ConsoleControl = $Console
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
