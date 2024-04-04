@@ -9,6 +9,17 @@ func _ready():
 func _process(delta):
 	pass
 
+func _on_focus_entered() -> void:
+	#Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	pass
+
+func _on_visibility_changed() -> void:
+	if visible:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	else:
+		# TODO NO
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
 #var map_fn = func map(args):
 	#print('map is ', get_tree().current_scene)
 

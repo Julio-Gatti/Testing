@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://c0jys0pbmxnpv"]
 
-[ext_resource type="ArrayMesh" uid="uid://c82ll03i364yx" path="res://base/models/info_player_start/info_player_start.obj" id="1_aut8d"]
+[ext_resource type="ArrayMesh" uid="uid://b13wghvctoo1j" path="res://base/models/info_player_start/info_player_start_new.obj" id="1_w4f8f"]
 [ext_resource type="Script" path="res://base/script/player_start.gd" id="2_sd0la"]
 
 [node name="info_player_start" type="MeshInstance3D"]
 cast_shadow = 0
 gi_mode = 0
-mesh = ExtResource("1_aut8d")
+mesh = ExtResource("1_w4f8f")
 script = ExtResource("2_sd0la")

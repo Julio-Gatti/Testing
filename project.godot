@@ -13,7 +13,7 @@ config_version=5
 config/name="Testing"
 config/description="Godot project."
 config/version="0.1"
-run/main_scene="res://base/maps/test_box.tscn"
+run/main_scene="res://base/maps/quake/e1m1.tscn"
 run/main_loop_type="Game"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 run/max_fps=300
@@ -22,8 +22,8 @@ config/icon="res://icon.svg"
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=720
+window/size/viewport_width=1600
+window/size/viewport_height=900
 window/stretch/scale=0.5
 window/stretch/scale_mode="integer"
 

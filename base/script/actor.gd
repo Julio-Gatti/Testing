@@ -47,10 +47,24 @@ class Damage:
 
 ## Maximum movement speed.
 @export var speed = 5.0
-@export var jump_velocity = 4.5
+@export var jump_velocity = 5.0
+
+## STAIR HANDLING STUFF
+@export_group("Stair Handling")
+var is_step : bool = false
+var step_check_height : Vector3 = STEP_HEIGHT_DEFAULT / STEP_CHECK_COUNT
+var head_offset : Vector3 = Vector3.ZERO
+## This sets the camera smoothing when going up/down stairs as the player snaps to each stair step.
+@export var step_height_camera_lerp : float = 2.5
+## This sets the height of what is still considered a step (instead of a wall/edge)
+@export var STEP_HEIGHT_DEFAULT : Vector3 = Vector3(0, 0.5, 0)
+## This sets the step slope degree check. When set to 0, tiny edges etc might stop the player in it's tracks. 1 seems to work fine.
+@export var STEP_MAX_SLOPE_DEGREE : float = 0.0
+const STEP_CHECK_COUNT : int = 2
+const WALL_MARGIN : float = 0.001
 
 # Get the gravity from the project settings to be synced with `RigidBody` nodes.
-var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 # This syntax for returning something sucks, lol
 func is_noclip() -> bool:
@@ -148,19 +162,158 @@ func landed():
 		var damage_amount = abs(last_velocity.y) * falling_damage_multiplier
 		pain(damage_amount, DMG_FALL)
 
+# Cache allocation of test motion parameters.
+@onready var _params: PhysicsTestMotionParameters3D = PhysicsTestMotionParameters3D.new()
+
+func get_physics_test_motion_params(transform3d, motion):
+	var params : PhysicsTestMotionParameters3D = _params
+	params.from = transform3d
+	params.motion = motion
+	params.recovery_as_collision = true
+	return params
+
+@onready var self_rid: RID = self.get_rid()
+@onready var test_motion_result: PhysicsTestMotionResult3D = PhysicsTestMotionResult3D.new()
+
+func test_motion(transform3d: Transform3D, motion: Vector3) -> bool:
+	return PhysicsServer3D.body_test_motion(self_rid, get_physics_test_motion_params(transform3d, motion), test_motion_result)
+
 # I presume this is called every time the physics world gets simulated,
 # which is independent of our visual framerate.
 func _physics_process(delta):
-	# We need to update our `velocity`, which we have, as we extend `CharacterBody3D`.
+	var snap : Vector3
+	var gravity_vec : Vector3
+	var is_falling: bool = false
 
+	# We need to update our `velocity`, which we have, as we extend `CharacterBody3D`.
+	
+	### STAIR FLOOR SNAP
+		#jumping and gravity
+	if is_on_floor():
+		snap = -get_floor_normal()
+		gravity_vec = Vector3.ZERO
+	else:
+		snap = Vector3.DOWN
+		gravity_vec = Vector3.DOWN * gravity * delta
+	###
+	
 	# Add the gravity.
 	if not is_on_floor():
 		was_in_air = true
-		velocity.y -= gravity * delta
-	elif was_in_air:
-		landed()
-
+		# NOT YET
+		# velocity.y -= gravity * delta
+	else:
+		snap = -get_floor_normal()
+		if was_in_air:
+			landed()
+	
 	last_velocity = velocity
+	
+	# STAIR HANDLING
+	is_step = false
+	
+	if gravity_vec.y >= 0:
+		for i in range(STEP_CHECK_COUNT):
+			var step_height: Vector3 = STEP_HEIGHT_DEFAULT - i * step_check_height
+			var transform3d: Transform3D = global_transform
+			var motion: Vector3 = step_height
+			
+			var is_player_collided: bool = test_motion(transform3d, motion)
+			
+			if test_motion_result.get_collision_count() > 0 and test_motion_result.get_collision_normal(0).y < 0:
+				continue
+			
+			if not is_player_collided:
+				transform3d.origin += step_height
+				motion = velocity * delta
+				is_player_collided = test_motion(transform3d, motion)
+				if not is_player_collided:
+					transform3d.origin += motion
+					motion = -step_height
+					is_player_collided = test_motion(transform3d, motion)
+					if is_player_collided:
+						if test_motion_result.get_collision_count() > 0 and test_motion_result.get_collision_normal(0).angle_to(Vector3.UP) <= deg_to_rad(STEP_MAX_SLOPE_DEGREE):
+							head_offset = -test_motion_result.get_remainder()
+							is_step = true
+							global_transform.origin += -test_motion_result.get_remainder()
+							break
+				else:
+					var wall_collision_normal: Vector3 = test_motion_result.get_collision_normal(0)
+
+					transform3d.origin += test_motion_result.get_collision_normal(0) * WALL_MARGIN
+					motion = (velocity * delta).slide(wall_collision_normal)
+					is_player_collided = test_motion(transform3d, motion)
+					if not is_player_collided:
+						transform3d.origin += motion
+						motion = -step_height
+						is_player_collided = test_motion(transform3d, motion)
+						if is_player_collided:
+							if test_motion_result.get_collision_count() > 0 and test_motion_result.get_collision_normal(0).angle_to(Vector3.UP) <= deg_to_rad(STEP_MAX_SLOPE_DEGREE):
+								head_offset = -test_motion_result.get_remainder()
+								is_step = true
+								global_transform.origin += -test_motion_result.get_remainder()
+								break
+			else:
+				var wall_collision_normal: Vector3 = test_motion_result.get_collision_normal(0)
+				transform3d.origin += test_motion_result.get_collision_normal(0) * WALL_MARGIN
+				motion = step_height
+				is_player_collided = test_motion(transform3d, motion)
+				if not is_player_collided:
+					transform3d.origin += step_height
+					motion = (velocity * delta).slide(wall_collision_normal)
+					is_player_collided = test_motion(transform3d, motion)
+					if not is_player_collided:
+						transform3d.origin += motion
+						motion = -step_height
+						is_player_collided = test_motion(transform3d, motion)
+						if is_player_collided:
+							if test_motion_result.get_collision_count() > 0 and test_motion_result.get_collision_normal(0).angle_to(Vector3.UP) <= deg_to_rad(STEP_MAX_SLOPE_DEGREE):
+								head_offset = -test_motion_result.get_remainder()
+								is_step = true
+								global_transform.origin += -test_motion_result.get_remainder()
+								break
+
+	
+	
+	if not is_step and is_on_floor():
+		var step_height: Vector3 = STEP_HEIGHT_DEFAULT
+		var transform3d: Transform3D = global_transform
+		var motion: Vector3 = velocity * delta
+		var is_player_collided: bool = test_motion(transform3d, motion)
+		
+		if not is_player_collided:
+			transform3d.origin += motion
+			motion = -step_height
+			is_player_collided = test_motion(transform3d, motion)
+			if is_player_collided:
+				if test_motion_result.get_collision_count() > 0 and test_motion_result.get_collision_normal(0).angle_to(Vector3.UP) <= deg_to_rad(STEP_MAX_SLOPE_DEGREE):
+					head_offset = test_motion_result.get_travel()
+					is_step = true
+					global_transform.origin += test_motion_result.get_travel()
+			else:
+				is_falling = true
+		else:
+			if test_motion_result.get_collision_count() > 0 and test_motion_result.get_collision_normal(0).y == 0:
+				var wall_collision_normal: Vector3 = test_motion_result.get_collision_normal(0)
+				transform3d.origin += test_motion_result.get_collision_normal(0) * WALL_MARGIN
+				motion = (velocity * delta).slide(wall_collision_normal)
+				is_player_collided = test_motion(transform3d, motion)
+				if not is_player_collided:
+					transform3d.origin += motion
+					motion = -step_height
+					is_player_collided = test_motion(transform3d, motion)
+					if is_player_collided:
+						if test_motion_result.get_collision_count() > 0 and test_motion_result.get_collision_normal(0).angle_to(Vector3.UP) <= deg_to_rad(STEP_MAX_SLOPE_DEGREE):
+							head_offset = test_motion_result.get_travel()
+							is_step = true
+							global_transform.origin += test_motion_result.get_travel()
+					else:
+						is_falling = true
+
+	velocity += gravity_vec
+
+	if is_falling:
+		snap = Vector3.ZERO
 
 	# Now that we have figured out our velocity,
 	# `CharacterBody3D.move_and_slide()` tells the physics engine to

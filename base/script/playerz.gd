@@ -134,7 +134,7 @@ func _physics_process(delta):
 		input_dir = Input.get_vector("moveleft", "moveright", "forward", "back")
 	else:
 		input_dir = Vector2.ZERO
-
+	
 	wishdir = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if wishdir: # length > 0
 		# wants to accelerate
@@ -154,10 +154,13 @@ func _physics_process(delta):
 			# it doesn't move us.
 			velocity.x = lerp(velocity.x, move_toward(velocity.x, 0, speed), deceleration * delta)
 			velocity.z = lerp(velocity.z, move_toward(velocity.z, 0, speed), deceleration * delta)
-
+	
 	if is_input_enabled():
 		# Handle jump.
 		if Input.is_action_just_pressed("jump"):
 			jump()
+	
+	# WTF???
+	#apply_floor_snap()
 	
 	super._physics_process(delta)
